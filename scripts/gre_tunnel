@@ -1,0 +1,33 @@
+# basic stuff on FortSomething
+
+config system interface
+	edit "port1"
+		set alias wan
+		set mode static
+		set ip 75.33.101.66/30
+		set status up
+	next
+	edit "port3"
+		set alias MGMT
+	next
+end
+
+
+config system gre-tunnel
+	edit "GRE-TO-FW02"
+		set remote-gw 13.5.42.130
+		set local-gw 75.33.101.66
+		set interface "port1"
+	next
+end
+
+
+config system interface
+	edit "GRE-TO-FW02"
+		set alias "GRE-FW01"
+		set ip 10.0.0.1/32
+		set remote-ip 10.0.0.2 255.255.255.255
+		set status up
+		set allowaccess ping ssh
+	next
+end
